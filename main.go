@@ -91,6 +91,7 @@ func init() {
 				primary key,
 		name text not null,
 		goal text not null,
+		status text not null,
 		total_budget integer not null,
 		platforms text[] not null
 	);
@@ -117,7 +118,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	campaignInsert, err := db.Prepare("INSERT INTO campaigns (id, name, goal, total_budget, platforms) VALUES ($1, $2, $3, $4, $5)")
+	campaignInsert, err := db.Prepare("INSERT INTO campaigns (id, name, goal,status, total_budget, platforms) VALUES ($1, $2, $3, $4, $5, $6)")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -132,6 +133,7 @@ func init() {
 			c.ID,
 			c.Name,
 			c.Goal,
+			c.Status,
 			c.Budget,
 			pq.Array(c.usedPlatforms()),
 		)
@@ -203,7 +205,7 @@ func IndexHandler(res http.ResponseWriter, req *http.Request, _ httprouter.Param
 		http.NotFound(res, req)
 		return
 	}
-	row := db.QueryRow("SELECT json_agg(json_build_object('id',id,'name', name,'goal', goal, 'total_budget', total_budget, 'platforms', platforms)) as data FROM campaigns;")
+	row := db.QueryRow("SELECT json_agg(json_build_object('id',id,'name', name,'goal', goal, 'status', status, 'total_budget', total_budget, 'platforms', platforms)) as data FROM campaigns;")
 	var campaigns []byte
 	if err := row.Scan(&campaigns); err != nil {
 		log.Fatal(err)
@@ -222,19 +224,20 @@ func DetailsHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Pa
 		  'id',id,
 		  'name', name,
 		  'goal', goal,
+		  'status', c.status,
 		  'total_budget', total_budget,
 		  'platforms', (
 			SELECT json_agg(
 					 json_build_object(
 					   cp.platform_type, json_build_object(
-										   'status', cp.status,
-										   'total_budget', cp.total_budget,
-										   'remaining_budget', cp.remaining_budget,
-										   'start_date', start_date,
-										   'end_date', end_date,
-										   'target_audience', target_audience,
-										   'creatives', creatives,
-										   'insights', insights)
+							'status', cp.status,
+							'total_budget', cp.total_budget,
+							'remaining_budget', cp.remaining_budget,
+							'start_date', start_date,
+							'end_date', end_date,
+							'target_audience', target_audience,
+							'creatives', creatives,
+							'insights', insights)
 						 )
 					   )FROM campaign_platforms cp
 			WHERE cp.campaign_id = c.id
