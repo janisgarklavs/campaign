@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import "./main.css";
 
-import IndexPage from "./app/IndexPage";
-import DetailsPage from "./app/DetailsPage";
-import Header from "./app/Header";
+import IndexPage from "./pages/IndexPage";
+import DetailsPage from "./pages/DetailsPage";
+import Header from "./components/Header";
 
 const NotFound = () => <h1>Not Found!</h1>;
 
@@ -15,7 +15,7 @@ try {
     <BrowserRouter>
       <>
         <Header />
-        <div className="container mx-auto font-sans">
+        <div className="container mx-auto font-sans overflow-hidden h-full">
           <Switch>
             <Route exact path="/" component={IndexPage} />
             <Route exact path="/details/:id" component={DetailsPage} />

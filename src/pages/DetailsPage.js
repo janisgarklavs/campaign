@@ -14,7 +14,7 @@ export default class DetailsPage extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:8081/campaign/${this.campaignID}`)
+    fetch(`/campaign/${this.campaignID}`)
       .then(res => res.json())
       .then(
         result => {
@@ -39,6 +39,28 @@ export default class DetailsPage extends Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     }
-    return <h1>{campaign.id}</h1>;
+    return (
+      <>
+        <div>{campaign.name}</div>
+        <div>{campaign.id}</div>
+        <div>{campaign.goal}</div>
+        <div>{campaign.status}</div>
+        <div>{campaign.total_budget}</div>
+
+        {campaign.platforms.map(platform => (
+          <>
+            <div>
+              <div>{platform.type}</div>
+              <div>{platform.status}</div>
+              <div>{platform.total_budget}</div>
+              <div>{platform.remaining_budget}</div>
+              <div>{platform.start_date}</div>
+              <div>{platform.end_date}</div>
+            </div>
+            <br />
+          </>
+        ))}
+      </>
+    );
   }
 }

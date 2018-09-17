@@ -219,31 +219,31 @@ func DetailsHandler(res http.ResponseWriter, req *http.Request, ps httprouter.Pa
 		http.NotFound(res, req)
 		return
 	}
-	row := db.QueryRow(`SELECT 
-		json_build_object(
-		  'id',id,
-		  'name', name,
-		  'goal', goal,
-		  'status', c.status,
-		  'total_budget', total_budget,
-		  'platforms', (
-			SELECT json_agg(
-					 json_build_object(
-					   cp.platform_type, json_build_object(
-							'status', cp.status,
-							'total_budget', cp.total_budget,
-							'remaining_budget', cp.remaining_budget,
-							'start_date', start_date,
-							'end_date', end_date,
-							'target_audience', target_audience,
-							'creatives', creatives,
-							'insights', insights)
-						 )
-					   )FROM campaign_platforms cp
-			WHERE cp.campaign_id = c.id
-		  )
-		 )
-		FROM campaigns c WHERE c.id = $1`, ps.ByName("id"))
+	row := db.QueryRow(`SELECT
+	json_build_object(
+	  'id',id,
+	  'name', name,
+	  'goal', goal,
+	  'status', c.status,
+	  'total_budget', total_budget,
+	  'platforms', (
+		SELECT json_agg(
+				 json_build_object(
+				   'type', cp.platform_type,
+						'status', cp.status,
+						'total_budget', cp.total_budget,
+						'remaining_budget', cp.remaining_budget,
+						'start_date', start_date,
+						'end_date', end_date,
+						'target_audience', target_audience,
+						'creatives', creatives,
+						'insights', insights)
+					 )
+				   FROM campaign_platforms cp
+		WHERE cp.campaign_id = c.id
+	  )
+	 )
+	FROM campaigns c WHERE c.id = $1;`, ps.ByName("id"))
 	var details []byte
 	if err := row.Scan(&details); err != nil {
 		log.Fatal(err)

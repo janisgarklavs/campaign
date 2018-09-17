@@ -5,7 +5,7 @@ import classnames from "classnames";
 const CampaignStatus = ({ status }) => {
   const styleCX = classnames(
     "border",
-    "px-2 py-1 text-center rounded font-bold opacity-75",
+    "px-1 text-center rounded font-bold opacity-75",
     { "bg-blue-dark text-white border-blue-dark": status === "Delivering" },
     { "bg-green-dark text-white border-green-dark": status === "Ended" },
     { "bg-orange-dark text-white border-orange-dark": status === "Scheduled" }

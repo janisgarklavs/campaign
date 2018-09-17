@@ -3809,6 +3809,10 @@ table {
   min-width: 0;
 }
 
+.min-w-xs {
+  min-width: 20rem;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -9404,6 +9408,10 @@ table {
     min-width: 0;
   }
 
+  .sm\:min-w-xs {
+    min-width: 20rem;
+  }
+
   .sm\:min-w-full {
     min-width: 100%;
   }
@@ -14967,6 +14975,10 @@ table {
 
   .md\:min-w-0 {
     min-width: 0;
+  }
+
+  .md\:min-w-xs {
+    min-width: 20rem;
   }
 
   .md\:min-w-full {
@@ -20534,6 +20546,10 @@ table {
     min-width: 0;
   }
 
+  .lg\:min-w-xs {
+    min-width: 20rem;
+  }
+
   .lg\:min-w-full {
     min-width: 100%;
   }
@@ -26097,6 +26113,10 @@ table {
 
   .xl\:min-w-0 {
     min-width: 0;
+  }
+
+  .xl\:min-w-xs {
+    min-width: 20rem;
   }
 
   .xl\:min-w-full {

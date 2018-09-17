@@ -1,10 +1,11 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "public"),
     filename: "app.[hash].js",
     publicPath: "/app/"
   },
@@ -32,6 +33,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(["public"], { exclude: "images" }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
@@ -41,7 +43,10 @@ module.exports = {
     historyApiFallback: {
       index: "/app"
     },
-    contentBase: path.resolve(__dirname, "dist"),
-    publicPath: "/app"
+    contentBase: path.resolve(__dirname, "public"),
+    publicPath: "/app",
+    proxy: {
+      "/campaign": "http://localhost:8081"
+    }
   }
 };

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-import Campaign from "./Campaign";
-import CampaignListHeader from "./CampaignListHeader";
+import CampaignCard from "../components/CampaignCard";
 
 export default class IndexPage extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ export default class IndexPage extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8081/campaign")
+    fetch("/campaign")
       .then(res => res.json())
       .then(
         result => {
@@ -40,10 +39,9 @@ export default class IndexPage extends Component {
       return <div>Loading...</div>;
     }
     return (
-      <div className="mt-4">
-        <CampaignListHeader />
+      <div className="mt-8 flex flex-wrap -mx-2 justify-between">
         {campaigns.map(campaign => (
-          <Campaign key={campaign.id} campaign={campaign} />
+          <CampaignCard key={campaign.id} campaign={campaign} />
         ))}
       </div>
     );
