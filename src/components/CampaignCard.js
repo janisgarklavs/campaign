@@ -21,17 +21,17 @@ const Campaign = ({ campaign }) => {
               {campaign.id})
             </span>
           </span>
-          <span className="text-xs ml-2">
+          <span className="ml-2">
             <CampaignStatus status={campaign.status} />
           </span>
         </div>
         <div className="pb-2 text-sm text-grey-darkest mb-4">
           <span className="text-grey text-xs">Goal: </span>
-          {campaign.goal}
+          <i>{campaign.goal}</i>
         </div>
 
         <div className="flex justify-between">
-          <div className="">
+          <div>
             $
             <span className="border-b">{campaign.total_budget.toFixed(2)}</span>
           </div>
