@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
-import FacebookDetails from "../components/FacebookDetails";
-import InstagramDetails from "../components/InstagramDetails";
-import GoogleDetails from "../components/GoogleDetails";
 import CampaignStatus from "../components/CampaignStatus";
+import PlatformDetails from "../components/PlatformDetails";
 
 export default class DetailsPage extends Component {
   constructor(props) {
@@ -37,18 +35,6 @@ export default class DetailsPage extends Component {
       );
   }
 
-  componentByPlatform(platform) {
-    if (platform.type === "facebook") {
-      return <FacebookDetails platform={platform} />;
-    }
-    if (platform.type === "instagram") {
-      return <InstagramDetails platform={platform} />;
-    }
-    if (platform.type === "google") {
-      return <GoogleDetails platform={platform} />;
-    }
-  }
-
   render() {
     const { error, isLoaded, campaign } = this.state;
     if (error) {
@@ -58,9 +44,9 @@ export default class DetailsPage extends Component {
     }
     return (
       <div className="container max-w-xl mx-auto">
-        <div className="mt-8 p-4 bg-white flex flex-col rounded shadow">
+        <div className="mx-2 mt-8 p-4 bg-white flex flex-col rounded shadow">
           <div className="border-b border-blue-lighter flex justify-between w-full pb-1 items-center">
-            <div className="text-4xl font-semi">
+            <div className="text-xl sm:text-2xl lg:text-4xl font-semi">
               {campaign.name}
               &nbsp;
               <span className="text-sm text-grey">
@@ -69,15 +55,14 @@ export default class DetailsPage extends Component {
               </span>
             </div>
             <div>
-              <CampaignStatus status={campaign.status} large />
+              <CampaignStatus status={campaign.status} />
             </div>
           </div>
-          <div className="mt-2 p-4">
-            <div className="text-sm text-grey-darkest mb-4">
+          <div className="mt-2 p-4 flex justify-between items-center flex-row">
+            <div className="text-sm text-grey-darkest">
               <span className="text-grey text-xs">Goal: </span>
               <i>{campaign.goal}</i>
             </div>
-
             <div>
               <span className="text-grey text-xs">Budget: </span>$
               <span className="border-b text-sm text-grey-darkest">
@@ -85,15 +70,7 @@ export default class DetailsPage extends Component {
               </span>
             </div>
           </div>
-        </div>
-        <div className="flex mt-1 -mx-1 justify-between">
-          {campaign.platforms.map(platform => (
-            <div className="px-1 w-full" key={platform.type}>
-              <div className="bg-white shadow rounded p-4">
-                {this.componentByPlatform(platform)}
-              </div>
-            </div>
-          ))}
+          <PlatformDetails platforms={campaign.platforms} />
         </div>
       </div>
     );
